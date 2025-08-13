@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / compiled files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Editors
+.vscode/ # VSCode settings
+.idea/   # PyCharm settings
+*.sublime-project
+*.sublime-workspace
+
+# Environments
+venv/
+env/
+Data/
+.env
+*.bak
+*.swp
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.sqlite3 # For Django projects, if using SQLite
+db.sqlite3 # For Django projects, if using SQLite
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook files
+.ipynb_checkpoints
