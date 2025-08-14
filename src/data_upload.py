@@ -57,7 +57,7 @@ class S3Uploader:
         filename = os.path.basename(pdf_path)
 
         # Sanitize folder names
-        company_folder = company_name.strip().upper().replace(" ", "_")
+        company_folder = company_name.strip().upper()
         year_folder = year.strip().upper()  # Ensure format like 'FY25'
         quarter_folder = quarter.strip().upper()  # Ensure format like 'Q1'
         category_folder = category.strip().replace(" ", "_").lower()
