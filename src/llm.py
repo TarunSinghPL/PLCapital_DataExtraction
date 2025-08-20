@@ -10,7 +10,7 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 class LLMCaller:
-    def __init__(self, model="gpt-4o"):  # Default model; change if needed
+    def __init__(self, model="gpt-5"):  # Default model; change if needed
         self.model = model
 
     def llm_call(self, prompt):
@@ -22,8 +22,8 @@ class LLMCaller:
                         "role": "user",
                         "content": prompt
                     }
-                ],
-                temperature=0.0
+                ]
+                
             )
             return response.choices[0].message['content']
         except Exception as e:

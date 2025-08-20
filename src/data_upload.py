@@ -60,8 +60,8 @@ class S3Uploader:
         company_folder = company_name.strip().upper()
         year_folder = year.strip().upper()  # Ensure format like 'FY25'
         quarter_folder = quarter.strip().upper()  # Ensure format like 'Q1'
-        category_folder = category.strip().replace(" ", "_").lower()
-        filename = os.path.basename(pdf_path).replace(" ", "_")
+        category_folder = category.strip().upper().replace(" ", "_")
+        filename = os.path.basename(pdf_path).strip().upper().replace(" ", "_")
 
         # S3 path
         s3_key = f"{company_folder}/{year_folder}/{quarter_folder}/{category_folder}/{filename}"

@@ -87,7 +87,7 @@ def main():
     print("Data Path board outcome: ", extracted_boardoutcome_data_path)
     print("Data Path investor outcome: ", extracted_investor_data_path)
 
-
+    
     # Process Board Outcome
 
     board_data_map = {}

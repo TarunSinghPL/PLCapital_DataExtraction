@@ -44,7 +44,7 @@ async def upload_pdf(
     qtr: str = Form(...),
     file_type: str = Form(...),  # "BO" or "IP"
     pdf_file: UploadFile = File(...),
-    session_id: Optional[str] = Form(None)
+    # session_id: Optional[str] = Form(None)
 ):
     # Always use a deterministic session id: company_year_qtr
     session_id = f"{company_name}_{year}_{qtr}".lower().replace(" ", "_")
@@ -94,8 +94,8 @@ async def process_session(
     session_id = f"{company_name}_{year}_{qtr}"
     
     # Expected S3 paths (adjust if uploader uses different folder structure)
-    bo_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/board_outcome/Board_Outcome_{year.upper()}{qtr.upper()}.pdf"
-    ip_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/investor_presentation/Investor_Presentation_{year.upper()}{qtr.upper()}.pdf"
+    bo_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/BOARD_OUTCOME/BOARD_OUTCOME_{year.upper()}{qtr.upper()}.pdf"
+    ip_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/INVESTOR_PRESENTATION/INVESTOR_PRESENTATION_{year.upper()}{qtr.upper()}.pdf"
 
     print(bo_key)
     print(ip_key)
@@ -175,6 +175,7 @@ async def process_session(
             # Anything else (None, empty, unexpected format)
             final_output_string = "No data extracted"
 
+        print(final_output_string)
         return final_output_string
 
 
