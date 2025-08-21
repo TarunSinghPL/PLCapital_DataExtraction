@@ -2,6 +2,7 @@ import os
 import uuid
 import tempfile
 import shutil
+import glob
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from typing import Optional
@@ -36,6 +37,22 @@ def s3_key_exists(bucket: str, key: str) -> bool:
         return True
     except s3_client.exceptions.ClientError:
         return False
+    
+# def cleanup_session_files(session_id: str):
+#     try:
+#         # Find any extracted json files in /tmp that belong to this session
+#         for f in glob.glob(f"/tmp/*{session_id}*.json"):
+#             os.remove(f)
+#             print(f"Deleted local file: {f}")
+
+#         # Also clean any leftover temp dirs
+#         session_dir = os.path.join(BASE_TEMP_DIR, session_id)
+#         if os.path.exists(session_dir):
+#             shutil.rmtree(session_dir, ignore_errors=True)
+#             print(f" Deleted temp dir: {session_dir}")
+#     except Exception as e:
+#         print(f"Cleanup failed for session {session_id}: {e}")
+
 
 @app.post("/upload-pdf")
 async def upload_pdf(
@@ -94,8 +111,8 @@ async def process_session(
     session_id = f"{company_name}_{year}_{qtr}"
     
     # Expected S3 paths (adjust if uploader uses different folder structure)
-    bo_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/BOARD_OUTCOME/BOARD_OUTCOME_{year.upper()}{qtr.upper()}.pdf"
-    ip_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/INVESTOR_PRESENTATION/INVESTOR_PRESENTATION_{year.upper()}{qtr.upper()}.pdf"
+    bo_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/BOARD_OUTCOME/BOARD_OUTCOME_{year.upper()}{qtr.upper()}.PDF"
+    ip_key = f"{company_name.upper()}/{year.upper()}/{qtr.upper()}/INVESTOR_PRESENTATION/INVESTOR_PRESENTATION_{year.upper()}{qtr.upper()}.PDF"
 
     print(bo_key)
     print(ip_key)
@@ -126,8 +143,8 @@ async def process_session(
         # bo_data = extract_data(f"s3://{BUCKET_NAME}/{bo_key}", boardoutcome_terms)
         # ip_data = extract_data(f"s3://{BUCKET_NAME}/{ip_key}", investor_presentation_terms)
 
-        extracted_bo_data_path = [extractor.run_textract_on_single_pdf(bo_key)]
-        extracted_ip_data_path = [extractor.run_textract_on_single_pdf(ip_key)]
+        extracted_bo_data_path = [extractor.run_textract_with_cache(bo_key)]
+        extracted_ip_data_path = [extractor.run_textract_with_cache(ip_key)]
 
         board_data_map = {}
         for json_file in extracted_bo_data_path:
@@ -135,7 +152,8 @@ async def process_session(
                 pdf_data = load_json(json_file)
                 prompt = prompt_builder.build_prompt(pdf_data, boardoutcome_terms)
                 filename = os.path.splitext(os.path.basename(json_file))[0] + "_prompt.txt"
-                prompt_path = save_prompt_to_file(prompt, filename, company_name, year, qtr, category="Board Outcome")
+                print(f"Prompt Generated for: {json_file}")
+                # prompt_path = save_prompt_to_file(prompt, filename, company_name, year, qtr, category="Board Outcome")
 
                 response = llm.llm_call(prompt)
                 board_data_map[filename] = response if response else {}
@@ -150,7 +168,8 @@ async def process_session(
                 pdf_data = load_json(json_file)
                 prompt = prompt_builder.build_prompt(pdf_data, investor_presentation_terms)
                 filename = os.path.splitext(os.path.basename(json_file))[0] + "_prompt.txt"
-                prompt_path = save_prompt_to_file(prompt, filename, company_name, year, qtr, category="Investor Presentation")
+                print(f"Prompt Generated for: {json_file}")
+                # prompt_path = save_prompt_to_file(prompt, filename, company_name, year, qtr, category="Investor Presentation")
 
                 response = llm.llm_call(prompt)
                 investor_data_map[filename] = response if response else {}

@@ -72,17 +72,17 @@ def main():
 
     if os.path.isfile(board_outcome_path):
         extracted_boardoutcome_data_path = [
-            extractor.run_textract_on_single_pdf(upload_files_board_outcome[0])
+            extractor.run_textract_with_cache(upload_files_board_outcome[0])
         ]
     else:
-        extracted_boardoutcome_data_path = extractor.run_textract_on_uploaded_pdfs(upload_files_board_outcome)
+        extracted_boardoutcome_data_path = extractor.run_textract_with_cache(upload_files_board_outcome)
 
     if os.path.isfile(investor_presentation_path):
         extracted_investor_data_path = [
-            extractor.run_textract_on_single_pdf(upload_files_investor_presentations[0])
+            extractor.run_textract_with_cache(upload_files_investor_presentations[0])
         ]
     else:
-        extracted_investor_data_path = extractor.run_textract_on_uploaded_pdfs(upload_files_investor_presentations)
+        extracted_investor_data_path = extractor.run_textract_with_cache(upload_files_investor_presentations)
 
     print("Data Path board outcome: ", extracted_boardoutcome_data_path)
     print("Data Path investor outcome: ", extracted_investor_data_path)
