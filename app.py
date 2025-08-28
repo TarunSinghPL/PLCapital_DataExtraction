@@ -104,6 +104,7 @@ async def process_session(
     company_name: str = Form(...),
     year: str = Form(...),
     qtr: str = Form(...),
+    table_name: str = Form(...),
     boardoutcome_terms: str = Form(...),
     investor_presentation_terms: str = Form(...),
 ):
@@ -150,7 +151,7 @@ async def process_session(
         for json_file in extracted_bo_data_path:
             try:
                 pdf_data = load_json(json_file)
-                prompt = prompt_builder.build_prompt(table_name= "Consolidated", extracted_data=pdf_data, terms=boardoutcome_terms)
+                prompt = prompt_builder.build_prompt(table_name= table_name, extracted_data=pdf_data, terms=boardoutcome_terms)
                 filename = os.path.splitext(os.path.basename(json_file))[0] + "_prompt.txt"
                 print(f"Prompt Generated for: {json_file}")
                 # prompt_path = save_prompt_to_file(prompt, filename, company_name, year, qtr, category="Board Outcome")
@@ -166,7 +167,7 @@ async def process_session(
         for json_file in extracted_ip_data_path:
             try:
                 pdf_data = load_json(json_file)
-                prompt = prompt_builder.build_prompt(table_name="Consolidated", extracted_data=pdf_data, terms=investor_presentation_terms)
+                prompt = prompt_builder.build_prompt(table_name=table_name, extracted_data=pdf_data, terms=investor_presentation_terms)
                 filename = os.path.splitext(os.path.basename(json_file))[0] + "_prompt.txt"
                 print(f"Prompt Generated for: {json_file}")
                 # prompt_path = save_prompt_to_file(prompt, filename, company_name, year, qtr, category="Investor Presentation")
