@@ -11,7 +11,7 @@ class PromptBuilder:
 
     Extraction Rules:
 
-        1) Source Data: Prioritize data exclusively from the table titled "Consolidated Financial Results." Ignore all other tables if this not present look from all data.
+        1) Source Data: Prioritize data exclusively from the table titled "{table_name} Financial Results" Ignore all other tables if this not present look from all data.
 
         2) Value Search: For each term listed below, find its corresponding value in the source data.
 
@@ -72,5 +72,5 @@ class PromptBuilder:
 
         self.prompt = PromptTemplate.from_template(self.template)
 
-    def build_prompt(self, extracted_data: str, terms: str) -> str:
-        return self.prompt.format(extracted_data=extracted_data, terms=terms)
+    def build_prompt(self, table_name: str, extracted_data: str, terms: str) -> str:
+        return self.prompt.format(table_name=table_name, extracted_data=extracted_data, terms=terms)

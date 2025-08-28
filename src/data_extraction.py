@@ -117,7 +117,7 @@ class PDFTextractProcessor:
 #     )
     
 #     output_path = extractor.run_textract_with_cache(
-#         s3_uri="s3://plcapital-dataextraction/TARUN/FY25/Q1/BOARD_OUTCOME/BOARD_OUTCOME_FY25Q4.PDF"
+#         s3_uri="s3://plcapital-dataextraction/ACC/FY26/Q1/INVESTOR_PRESENTATION/INVESTOR_PRESENTATION_FY26Q1.PDF"
 #     )
 
 #     print("*********************************************************")
