@@ -29,7 +29,9 @@ class PromptBuilder:
 
         4) Unit Conversion (Financial Data Only):
 
-            Carefully check the document to determine the unit of the monetary financial value under investigation.
+            Carefully check the document to determine the unit of the monetary financial value under investigation (e.g., "Rs. in Lakhs", "Rs. in Crores", "₹ in Crores").
+
+            If the unit is Lakhs, divide every financial value by 10 to convert into millions.
 
             If the unit is crores, multiply every numeric financial value(but are not limited to) by exactly 10 to convert to millions and Do not apply any further scaling(like: (never ×100, ×1000, or ×10000)). Values are like [like: Revenue, Taxes, Profit, Interest] and This applies equally to whole numbers, decimals, and negatives (e.g., 5 → 50, (3.2) → -32, 0.7 → 7)
 
